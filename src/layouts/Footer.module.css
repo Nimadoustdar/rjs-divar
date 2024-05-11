@@ -1,0 +1,8 @@
+.footer {
+    text-align: center;
+    color: grey;
+    direction: ltr;
+    margin-top: 100px;
+    padding-top: 10px;
+    border-top: 2px solid rgba(234, 234, 234);
+}
