@@ -1,4 +1,5 @@
 import { sendOtp } from "../../services/auth";
+import { p2e } from "../../utils/numbers";
 
 import styles from "./SendOtpForm.module.css";
 
@@ -22,7 +23,7 @@ const SendOtpForm = ({ mobile, setMobile, setStep }) => {
       <input
         type="text"
         id="input"
-        value={mobile}
+        value={p2e(mobile)}
         onChange={(e) => setMobile(e.target.value)}
         placeholder="شماره موبایل"
       />

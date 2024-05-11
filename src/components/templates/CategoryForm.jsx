@@ -2,29 +2,31 @@ import { useState } from "react";
 
 import styles from "./CategoryForm.module.css";
 
-import { useMutation,useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { addCategory } from "../../services/admin";
+import toast from "react-hot-toast";
 
 const CategoryForm = () => {
-  const queryClient =useQueryClient()
+  const queryClient = useQueryClient();
   const [form, setForm] = useState({
     name: "",
     slug: "",
     icon: "",
   });
 
-  const { mutate, isLoading, error, data } = useMutation(addCategory,{
-    onSuccess:()=>{
-      queryClient.invalidateQueries("get-categories")
-    }
+  const { mutate, error, data } = useMutation(addCategory, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("get-categories");
+      toast.success("با موقفیت ایجاد شد");
+    },
   });
-  console.log({ isLoading, error, data });
 
   const submitHandler = (event) => {
     event.preventDefault();
     if (!form.name || !form.slug || !form.icon) return;
     mutate(form);
+  
   };
 
   const changeHandler = (event) => {
@@ -46,9 +48,7 @@ const CategoryForm = () => {
       <input type="text" name="slug" id="slug" />
       <label htmlFor="icon">آیکون</label>
       <input type="text" name="icon" id="icon" />
-      <button type="submit" disable={isLoading}>
-        ایجاد
-      </button>
+      <button type="submit">ایجاد</button>
     </form>
   );
 };

@@ -4,9 +4,11 @@ import { setCookie } from "../../utils/cookie";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../../services/user";
 
-import styles from "./CheckOtpForm.module.css"
+import styles from "./CheckOtpForm.module.css";
+import { p2e } from "../../utils/numbers";
 
 const CheckOtpForm = ({ mobile, setCode, code, setStep }) => {
+  console.log(mobile, code);
   const navigate = useNavigate();
   const { refetch } = useQuery(["profile"], getProfile);
 
@@ -18,8 +20,7 @@ const CheckOtpForm = ({ mobile, setCode, code, setStep }) => {
     if (response) {
       setCookie(response.data);
       navigate("/");
-      refetch()
-      console.log(response);
+      refetch();
     }
     if (error) {
       console.log(error.response.data.message);
@@ -35,11 +36,13 @@ const CheckOtpForm = ({ mobile, setCode, code, setStep }) => {
         type="text"
         id="input"
         placeholder=""
-        value={code}
+        value={p2e(code)}
         onChange={(e) => setCode(e.target.value)}
       />
       <button type="submit">ورود</button>
-      <button onClick={() => setStep(1)} className={styles.backButton}>تغییر شماره همراه</button>
+      <button onClick={() => setStep(1)} className={styles.backButton}>
+        تغییر شماره همراه
+      </button>
     </form>
   );
 };

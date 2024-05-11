@@ -5,8 +5,9 @@ import { getNewToken } from "../services/token"
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
-    headers:
-        { "Content-Type": "application/json" }
+    headers: {
+        "Content-Type": "application/json"
+    }
 })
 
 api.interceptors.request.use((request) => {
@@ -23,17 +24,17 @@ api.interceptors.request.use((request) => {
 api.interceptors.response.use((response) => {
     return response
 },
- async (error) => {
-    const originalRequest = error.config
-    if (error.response.status === 401 && !originalRequest._retry ) {
-        originalRequest._retry = true;
+    async (error) => {
+        const originalRequest = error.config
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
 
-        const response = await getNewToken()
+            const response = await getNewToken()
 
-        if (!response?.response) return
-        setCookie(response.response.data)
+            if (!response?.response) return
+            setCookie(response.response.data)
 
-        return api(originalRequest)
-    }
-})
+            return api(originalRequest)
+        }
+    })
 export default api

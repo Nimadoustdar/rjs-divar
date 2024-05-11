@@ -1,8 +1,13 @@
+import AddPost from "../components/templates/AddPost";
+import PostList from "../components/templates/PostList";
 
 const DashboardPage = () => {
   return (
-    <div>DashboardPage</div>
-  )
-}
+    <div>
+      <AddPost />
+      <PostList/>
+     </div>
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;
