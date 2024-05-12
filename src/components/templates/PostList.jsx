@@ -1,13 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPost } from "../../services/user";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { deletePost, getPost } from "../../services/user";
 
 import styles from "./PostList.module.css";
 import Loader from "../modules/Loader";
 import { sp } from "../../utils/numbers";
+import toast from "react-hot-toast";
 
 const PostList = () => {
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useQuery(["my-post-list"], getPost);
-  console.log(data);
+
+  const { mutate } = useMutation(deletePost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("my-post-list");
+      toast.success("با موقفیت حذف شد");
+    },
+  });
+
+  const deleteHandler = (id) => {
+    mutate(id);
+  };
+
   return (
     <div className={styles.list}>
       {isLoading ? (
@@ -29,6 +48,7 @@ const PostList = () => {
                 <p>{new Date(post.createdAt).toLocaleDateString("fa-IR")}</p>
                 <span>{sp(post.amount)} تومان</span>
               </div>
+              <button onClick={() => deleteHandler(post._id)}>delete</button>
             </div>
           ))}
         </>

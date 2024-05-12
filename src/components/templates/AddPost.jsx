@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -17,8 +17,7 @@ const AddPost = () => {
     amount: null,
     images: null,
   });
-
-  const { data, isLoading } = useQuery(["get-categories"], getCategory);
+  const { data } = useQuery(["get-categories"], getCategory);
 
   const changeHandler = (e) => {
     const name = e.target.name;
@@ -45,7 +44,9 @@ const AddPost = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => toast.success(res.data.message))
+      .then((res) => {
+        toast.success(res.data.message);
+      })
       .catch((error) => toast.error("مشکلی پیش آمده است"));
   };
 

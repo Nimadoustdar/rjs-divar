@@ -3,9 +3,9 @@ import { checkOtp } from "../../services/auth";
 import { setCookie } from "../../utils/cookie";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../../services/user";
+import { p2e } from "../../utils/numbers";
 
 import styles from "./CheckOtpForm.module.css";
-import { p2e } from "../../utils/numbers";
 
 const CheckOtpForm = ({ mobile, setCode, code, setStep }) => {
   console.log(mobile, code);

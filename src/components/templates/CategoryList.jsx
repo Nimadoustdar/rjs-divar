@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCategory, getCategory } from "../../services/admin";
+
 import Loader from "../modules/Loader";
 import toast from "react-hot-toast";
 
@@ -9,6 +10,7 @@ const CategoryList = () => {
   const queryClient = useQueryClient();
 
   const { isLoading, data } = useQuery(["get-categories"], getCategory);
+
   const { mutate } = useMutation(deleteCategory, {
     onSuccess: () => {
       queryClient.invalidateQueries("get-categories");
